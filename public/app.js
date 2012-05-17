@@ -31,6 +31,15 @@ $(function() {
       }
    });
 
+   $('#boxes > div').each(function() {
+      var $e = $(this);
+
+      setTimeout(function() {
+         $e.addClass('pulsing');
+         $e.addClass('gyrating');
+      }, Math.random() * 2000);
+   });
+
    // If there was no access token defined then return
    if (accessToken === 'undefined' ||
       accessToken === undefined) {
@@ -102,24 +111,26 @@ dragMomentum.prototype.end = function(e, Xb, Yb, Tb) {
    var distX =  Math.abs(Xa - Xb);
    var distY =  Math.abs(Ya - Yb);
 
-   var dVelX = (this.minDrift + (Math.round(distX * dSpeed * this.howMuch / (distX + distY))));
-   var dVelY = (this.minDrift + (Math.round(distY * dSpeed * this.howMuch / (distX + distY))));
+   var dVelocityX = (this.minDrift + (Math.round(distX * dSpeed * this.howMuch / (distX + distY))));
+   var dVelocityY = (this.minDrift + (Math.round(distY * dSpeed * this.howMuch / (distX + distY))));
 
    var position = e.position();
 
    var locX = position.left;
    var locY = position.top;
 
+   console.log('locX, locY', locX, locY);
+
    if (Xa > Xb) {  // we are moving left
-      Xc = locX - dVelX;
+      Xc = locX - dVelocityX;
    } else {  //  we are moving right
-      Xc = locX + dVelX;
+      Xc = locX + dVelocityX;
    }
 
    if (Ya > Yb) {  // we are moving up
-      Yc = (locY - dVelY);
+      Yc = (locY - dVelocityY);
    } else {  // we are moving down
-      Yc = (locY + dVelY);
+      Yc = (locY + dVelocityY);
    }
 
    console.log('Xc', Xc, 'Yc', Yc);
