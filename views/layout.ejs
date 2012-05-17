@@ -9,8 +9,8 @@
   <script src="/lib/sprintf-0.7-beta1.js"></script>
   <script src="/lib/underscore-min.js"></script>
 
+  <script src="/particle.js"></script>
   <script src="/app.js"></script>
-  <script src="particle.js" type="text/javascript" charset="utf-8"></script>
 
   <link rel="stylesheet" href="/styles.css" />
  </head>
@@ -18,10 +18,12 @@
  <body>
   <header>Clouds here.</header>
 
-  <%- body %>
+  <div id="body">
+   <%- body %>
+  </div>
 
   <footer>
-  <img id='skullLeft' src='/skull.png' /><canvas id='fire'>You really need canvas!</canvas><img id='skullRight' src='skull.png' />
+   <img id="skullLeft" src="/skull.png" /><canvas id="fire">You really need canvas!</canvas><img id="skullRight" src="skull.png" />
   </footer>
  </body>
 </html>

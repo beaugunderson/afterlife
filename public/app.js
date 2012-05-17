@@ -29,7 +29,7 @@ function setupFire() {
         size: 20,
         sizeVariance: 10,
         life: 30,
-        lifeVariance: 10,    
+        lifeVariance: 10,
         direction: 0,
         directionVariance: 15,
         color: '#fff',
@@ -48,7 +48,6 @@ function setupFire() {
   $("#skullLeft").css("left", canvasPos - 100 + "px");
 }
 
- 
 // Runs after the page has loaded
 $(function() {
   setupFire();
@@ -132,6 +131,8 @@ dragMomentum.prototype.end = function(e, Xb, Yb, Tb) {
    var Ya = e.data('dYa');
    var Ta = e.data('dTa');
 
+   console.log(this.howMuch, this.minDrift, this.easeType);
+
    console.log('end: Xa, Ya, Ta', Xa, Ya, Ta);
    console.log('end: Xb, Yb, Tb', Xb, Yb, Tb);
 
@@ -143,6 +144,9 @@ dragMomentum.prototype.end = function(e, Xb, Yb, Tb) {
    var dSpeed = dDist / dTime;
 
    dSpeed = Math.round(dSpeed * 100) / 100;
+
+   console.log('Xa - Xb', Xa - Xb);
+   console.log('Ya - Yb', Ya - Yb);
 
    var distX =  Math.abs(Xa - Xb);
    var distY =  Math.abs(Ya - Yb);

@@ -1,44 +1,47 @@
 html {
 	position: relative;
 	min-height: 100%;
+	height: 100%;
 }
 
 body {
 	margin: 0;
-	margin-bottom: 300px;
+	margin-bottom: 200px;
 
-	width: 100%;
 	height: 100%;
 
 	font-family: Georgia;
 
-	background-image: linear-gradient(bottom, rgb(0,0,0) 16%, rgb(199,178,163) 39%, rgb(89,169,189) 70%, rgb(197,239,240) 92%);
-	background-image: -o-linear-gradient(bottom, rgb(0,0,0) 16%, rgb(199,178,163) 39%, rgb(89,169,189) 70%, rgb(197,239,240) 92%);
-	background-image: -moz-linear-gradient(bottom, rgb(0,0,0) 16%, rgb(199,178,163) 39%, rgb(89,169,189) 70%, rgb(197,239,240) 92%);
-	background-image: -webkit-linear-gradient(bottom, rgb(0,0,0) 16%, rgb(199,178,163) 39%, rgb(89,169,189) 70%, rgb(197,239,240) 92%);
-	background-image: -ms-linear-gradient(bottom, rgb(0,0,0) 16%, rgb(199,178,163) 39%, rgb(89,169,189) 70%, rgb(197,239,240) 92%);
+	background: #7db9e8; /* Old browsers */
+	background: -moz-linear-gradient(top,  #7db9e8 0%, #e2e0a7 46%, #a4a87e 50%, #000000 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#7db9e8), color-stop(46%,#e2e0a7), color-stop(50%,#a4a87e), color-stop(100%,#000000)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #7db9e8 0%,#e2e0a7 46%,#a4a87e 50%,#000000 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #7db9e8 0%,#e2e0a7 46%,#a4a87e 50%,#000000 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #7db9e8 0%,#e2e0a7 46%,#a4a87e 50%,#000000 100%); /* IE10+ */
+	background: linear-gradient(top,  #7db9e8 0%,#e2e0a7 46%,#a4a87e 50%,#000000 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7db9e8', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
+}
 
-	background-image: -webkit-gradient(
-		linear,
-		left bottom,
-		left top,
-		color-stop(0.16, rgb(0,0,0)),
-		color-stop(0.39, rgb(199,178,163)),
-		color-stop(0.7, rgb(89,169,189)),
-		color-stop(0.92, rgb(197,239,240))
-	);
+#body {
+	height: 100%;
+	width: 100%;
+	margin-top: -200px;
+	padding-bottom: 100px;
+	display: table;
 }
 
 #boxes {
 	text-align: center;
+	display: table-cell;
+	vertical-align: middle;
 	height: 100%;
 }
 
 #boxes > div {
 	display: inline-block;
-	width: 200px;
-	height: 150px;
-	margin: 5px;
+	width: 270px;
+	height: 200px;
+	margin: 10px;
 	background-color: white;
 	text-align: left;
 	padding: 5px;
@@ -53,13 +56,15 @@ body {
 	-webkit-box-shadow:  0px 0px 7px 3px rgba(255, 2, 2, 0.5);
 	box-shadow:  0px 0px 7px 3px rgba(255, 2, 2, 0.5);
 
+	-webkit-transition: -webkit-box-shadow 0.2s linear;
+
 	cursor: url(https://mail.google.com/mail/images/2/openhand.cur), default !important;
 
 	.grabbing {
 		cursor: url(https://mail.google.com/mail/images/2/closedhand.cur), default !important;
 	}
 
-	:hover {
+	&:hover {
 		-webkit-box-shadow:  0px 0px 7px 3px rgba(2, 2, 255, 0.5);
 		box-shadow:  0px 0px 7px 3px rgba(2, 2, 255, 0.5);
 	}
@@ -106,7 +111,7 @@ body {
 }
 
 header {
-	height: 300px;
+	height: 200px;
 	width: 100%;
 }
 
@@ -114,58 +119,31 @@ footer {
 	position: absolute;
 	left: 0;
 	bottom: 0;
-	height: 300px;
+	height: 200px;
 	width: 100%;
+
+	img {
+		height: 100px;
+		position: absolute;
+		bottom: 0;
+	}
 }
 
 #fire {
-  width:600px;
-  height:200px;
-  position:absolute;
-  bottom:0px;
-  margin:0;
-  padding:0;
-}
-
-footer img {
-  height:100px;
-  position:absolute;
-  bottom:0;
+  width: 600px;
+  height: 200px;
+  position: absolute;
+  bottom: 0;
+  margin: 0;
+  padding: 0;
 }
 
 #skullRight {
 }
 
 #skullLeft {
-  -moz-transform:scaleX(-1);
-  -o-transform:scaleX(-1);
-  -webkit-transform:scaleX(-1);
-  transform:scaleX(-1);
-}
-
-a, a:visited {
-   color: #25aae1;
-   text-decoration: none;
-
-	:hover {
-		text-decoration: underline;
-	}
-}
-
-li {
-   list-style-type: none;
-}
-
-.check {
-   color: #25aae1;
-   margin-right: 4px;
-}
-
-#empowered {
-   margin-left: 14px;
-   width: 500px;
-}
-
-#auth {
-   width: 275px;
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
 }
