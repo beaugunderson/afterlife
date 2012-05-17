@@ -1,0 +1,11 @@
+<p>Register with one or more of these services:</p>
+
+<ul id="auth">
+<% for (var i = 0; i < services.length; i++) { %>
+ <li id="<%= services[i].name %>"><%- services[i].link %></li>
+<% } %>
+</ul>
+
+<div id="empowered">
+ <a href="http://singly.com/"><img src="/empowered.png" /></a>
+</div>

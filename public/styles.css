@@ -1,0 +1,31 @@
+body {
+   padding: 4em;
+   padding-top: 1em;
+}
+
+a, a:visited {
+   color: #25aae1;
+   text-decoration: none;
+}
+
+a:hover {
+   text-decoration: underline;
+}
+
+li {
+   list-style-type: none;
+}
+
+.check {
+   color: #25aae1;
+   margin-right: 4px;
+}
+
+#empowered {
+   margin-left: 14px;
+   width: 500px;
+}
+
+#auth {
+   width: 275px;
+}
