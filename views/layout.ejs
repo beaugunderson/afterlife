@@ -9,6 +9,10 @@
   <script src="/lib/sprintf-0.7-beta1.js"></script>
   <script src="/lib/underscore-min.js"></script>
 
+  <script>
+   var accessToken = '<%= session.access_token %>';
+  </script>
+
   <script src="/particle.js"></script>
   <script src="/app.js"></script>
 
@@ -17,8 +21,8 @@
 
  <body>
    <header>
-     <img class='clouds' src='/cloud.png' />
-     <img class='clouds' style='position:absolute;left:250px;top:0px;' src='/cloud2.png' />
+     <img id="cloud-1" src="/images/cloud.png" />
+     <img id="cloud-2" src="/images/cloud2.png" />
    </header>
 
   <div id="body">
@@ -26,7 +30,7 @@
   </div>
 
   <footer>
-   <img id="skullLeft" src="/skull.png" /><canvas id="fire">You really need canvas!</canvas><img id="skullRight" src="skull.png" />
+   <img id="skullLeft" src="/images/skull.png" /><canvas id="fire">You really need canvas!</canvas><img id="skullRight" src="/images/skull.png" />
   </footer>
  </body>
 </html>
