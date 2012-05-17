@@ -118,6 +118,31 @@ footer {
 	width: 100%;
 }
 
+#fire {
+  width:600px;
+  height:200px;
+  position:absolute;
+  bottom:0px;
+  margin:0;
+  padding:0;
+}
+
+footer img {
+  height:100px;
+  position:absolute;
+  bottom:0;
+}
+
+#skullRight {
+}
+
+#skullLeft {
+  -moz-transform:scaleX(-1);
+  -o-transform:scaleX(-1);
+  -webkit-transform:scaleX(-1);
+  transform:scaleX(-1);
+}
+
 a, a:visited {
    color: #25aae1;
    text-decoration: none;

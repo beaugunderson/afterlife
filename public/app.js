@@ -15,8 +15,44 @@ var singly = {
    }
 };
 
+function setupFire() {
+  canvas = $("#fire");
+  particles = new ParticleCanvas(canvas[0], {y:canvas.height() - 50});
+  particles.update({
+        shape: 'square',
+        velocity: new Vector({y: -2}),
+        xVariance: 130,
+        yVariance: 5,
+        spawnSpeed: 200,
+        generations: 100000,
+        maxParticles: 1000,
+        size: 20,
+        sizeVariance: 10,
+        life: 30,
+        lifeVariance: 10,    
+        direction: 0,
+        directionVariance: 15,
+        color: '#fff',
+        opacity: 1,
+        onDraw: function(p) {
+          var y = -this.age * 3;
+          p.size *= 0.98;
+          p.color = 'rgb(255, ' + (y + 180) + ', 68)';
+          p.opacity = 0.5 - (p.age / p.life * 0.4);
+        }
+      });
+  particles.start();
+  $("#fire").css("left", $(window).width() / 2 - 300);
+  var canvasPos = $("#fire").position().left;
+  $("#skullRight").css("left", canvasPos + $("#fire").width() + "px");
+  $("#skullLeft").css("left", canvasPos - 100 + "px");
+}
+
+ 
 // Runs after the page has loaded
 $(function() {
+  setupFire();
+
    var momentum = new dragMomentum(240, 3, 'linear');
 
    $('#boxes > div').draggable({
