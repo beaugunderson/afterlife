@@ -1,3 +1,4 @@
 node_modules
 config.json
 public/.sass-cache
+public/styles.css
