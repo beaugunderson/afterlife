@@ -1,4 +1,5 @@
 var express = require('express');
+var fs = require('fs');
 var querystring = require('querystring');
 var request = require('request');
 var sprintf = require('sprintf').sprintf;
@@ -25,7 +26,7 @@ var oa = new OAuth2(config.clientId, config.clientSecret, apiBaseUrl);
 
 // A convenience method that takes care of adding the access token to requests
 function getProtectedResource(path, session, callback) {
-   oa.getProtectedResource(baseUrl + path, session.access_token, callback);
+   oa.getProtectedResource(apiBaseUrl + path, session.access_token, callback);
 }
 
 // Given the name of a service and the array of profiles, return a link to that
@@ -102,6 +103,10 @@ app.get('/', function(req, res) {
    });
 });
 
+app.get('/test-boxes', function(req, res) {
+   res.render('test-boxes');
+});
+
 app.get('/callback', function(req, res) {
    var data = {
       client_id: config.clientId,
@@ -124,7 +129,7 @@ app.get('/callback', function(req, res) {
 
       req.session.access_token = body.access_token;
 
-      singly.getProtectedResource('/profiles', req.session, function(err, profilesBody) {
+      getProtectedResource('/profiles', req.session, function(err, profilesBody) {
          try {
             profilesBody = JSON.parse(profilesBody);
          } catch(parseErr) {

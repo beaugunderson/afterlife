@@ -1,0 +1,106 @@
+html {
+	position: relative;
+	min-height: 100%;
+}
+
+body {
+	margin: 0;
+	margin-bottom: 300px;
+
+	width: 100%;
+	height: 100%;
+
+	background-image: linear-gradient(bottom, rgb(0,0,0) 16%, rgb(199,178,163) 39%, rgb(89,169,189) 70%, rgb(197,239,240) 92%);
+	background-image: -o-linear-gradient(bottom, rgb(0,0,0) 16%, rgb(199,178,163) 39%, rgb(89,169,189) 70%, rgb(197,239,240) 92%);
+	background-image: -moz-linear-gradient(bottom, rgb(0,0,0) 16%, rgb(199,178,163) 39%, rgb(89,169,189) 70%, rgb(197,239,240) 92%);
+	background-image: -webkit-linear-gradient(bottom, rgb(0,0,0) 16%, rgb(199,178,163) 39%, rgb(89,169,189) 70%, rgb(197,239,240) 92%);
+	background-image: -ms-linear-gradient(bottom, rgb(0,0,0) 16%, rgb(199,178,163) 39%, rgb(89,169,189) 70%, rgb(197,239,240) 92%);
+
+	background-image: -webkit-gradient(
+		linear,
+		left bottom,
+		left top,
+		color-stop(0.16, rgb(0,0,0)),
+		color-stop(0.39, rgb(199,178,163)),
+		color-stop(0.7, rgb(89,169,189)),
+		color-stop(0.92, rgb(197,239,240))
+	);
+}
+
+#boxes {
+	text-align: center;
+	height: 100%;
+
+	/*
+	display: box;
+	box-orient: horizontal;
+	box-pack: center;
+	box-align: center;
+	*/
+}
+
+#boxes > div {
+	display: inline-block;
+	width: 200px;
+	height: 150px;
+	margin: 5px;
+	background-color: white;
+	text-align: left;
+	padding: 5px;
+
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+
+	cursor: url(https://mail.google.com/mail/images/2/openhand.cur), default !important;
+
+	-webkit-box-shadow:  0px 0px 7px 3px rgba(255, 2, 2, 0.5);
+	box-shadow:  0px 0px 7px 3px rgba(255, 2, 2, 0.5);
+
+	.grabbing {
+		cursor: url(https://mail.google.com/mail/images/2/closedhand.cur), default !important;
+	}
+}
+
+header {
+	height: 300px;
+	width: 100%;
+}
+
+footer {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	height: 300px;
+	width: 100%;
+}
+
+a, a:visited {
+   color: #25aae1;
+   text-decoration: none;
+
+	:hover {
+		text-decoration: underline;
+	}
+}
+
+li {
+   list-style-type: none;
+}
+
+.check {
+   color: #25aae1;
+   margin-right: 4px;
+}
+
+#empowered {
+   margin-left: 14px;
+   width: 500px;
+}
+
+#auth {
+   width: 275px;
+}
