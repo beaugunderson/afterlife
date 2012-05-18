@@ -2,6 +2,7 @@
    "name": "afterlife",
    "version": "0.0.1",
    "dependencies": {
+      "connect-mongo": "*",
       "ejs": "*",
       "express": "*",
       "oauth": "*",

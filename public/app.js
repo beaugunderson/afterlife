@@ -15,6 +15,33 @@ var singly = {
    }
 };
 
+var sources = [
+   {
+      service: 'facebook',
+      type: 'home'
+   },
+   {
+      service: 'instagram',
+      type: 'feed'
+   },
+   {
+      service: 'twitter',
+      type: 'timeline'
+   }
+];
+
+function getDataFn(source) {
+   return function(callback) {
+      singly.get('/services/' + source.service, null, function(metadata) {
+         var options = { limit: 50 };
+
+         singly.get('/services/' + source.service + '/' + source.type, options, function(data) {
+            callback(null, data);
+         });
+      });
+   };
+}
+
 function setupFire() {
   var canvas = $("#fire");
 
@@ -22,7 +49,7 @@ function setupFire() {
 
   particles.update({
      shape: 'square',
-     velocity: new Vector({y: -2}),
+     velocity: new Vector({ y: -2 }),
      xVariance: 130,
      yVariance: 5,
      spawnSpeed: 200,
@@ -54,32 +81,16 @@ function setupFire() {
   $("#skullLeft").css("left", canvasPos - 100 + "px");
 }
 
+var statuses = [];
+var momentum = new dragMomentum(240, 0, 'linear');
+
 // Runs after the page has loaded
 $(function() {
+   $('body').prepend('<div id="screen"></div>');
+
+   $('#screen').show();
+
    setupFire();
-
-   var momentum = new dragMomentum(240, 0, 'linear');
-
-   $('#boxes > div').draggable({
-      scroll: false,
-      containment: 'window',
-      // start and stop. We add in the momentum functions here.
-      start: function(e, ui) {
-         momentum.start($(this), e.clientX, e.clientY, e.timeStamp);
-      },
-      stop: function(e, ui) {
-         momentum.end($(this), e.clientX, e.clientY, e.timeStamp);
-      }
-   });
-
-   $('#boxes > div').each(function() {
-      var $e = $(this);
-
-      setTimeout(function() {
-         $e.addClass('pulsing');
-         $e.addClass('gyrating');
-      }, Math.random() * 2000);
-   });
 
    // If there was no access token defined then return
    if (accessToken === 'undefined' ||
@@ -89,16 +100,137 @@ $(function() {
 
    // Get the user's profiles
    singly.get('/profiles', null, function(profiles) {
-      _.each(profiles, function(profile) {
-         console.log('profile', profile);
+      //mixpanel.name_tag(profiles.id);
+
+      if (profiles.all.length === 0) {
+         return;
+      }
+
+      var functions = {};
+
+      _.each(sources, function(source) {
+         if (profiles[source.service] !== undefined) {
+            functions[source.service] = getDataFn(source);
+         }
+      });
+
+      $('#done-registering').show();
+
+      $('#done-registering, #screen').click(function() {
+         $('#auth-wrapper, #screen').hide();
+      });
+
+      // XXX: When /types/statuses_feed works we'll use that instead
+      async.parallel(functions, function(err, results) {
+         console.log('results', results);
+
+         if (results.facebook) {
+            results.facebook.forEach(function(e, i) {
+               var text = e.data.message;
+
+               if (text === undefined) {
+                  text = e.data.description;
+               }
+
+               statuses.push({
+                  at: e.at,
+                  text: text,
+                  fromId: e.data.from.id,
+                  fromName: e.data.from.name
+               });
+            });
+         }
+
+         if (results.instagram) {
+            results.instagram.forEach(function(e, i) {
+               statuses.push({
+                  at: e.at,
+                  image: e.data.images.low_resolution.url,
+                  fromId: e.data.user.id,
+                  fromName: e.data.user.full_name
+               });
+            });
+         }
+
+         if (results.twitter) {
+            results.twitter.forEach(function(e, i) {
+               statuses.push({
+                  at: e.at,
+                  text: e.data.text,
+                  fromId: e.data.user.id,
+                  fromName: e.data.user.name
+               });
+            });
+         }
+
+         statuses = _.sortBy(statuses, 'at');
+
+         console.log('statuses', statuses);
+
+         var added = 0;
+
+         var positions = [
+            $('#position-1'),
+            $('#position-2'),
+            $('#position-3'),
+            $('#position-4')
+         ];
+
+         while (added < 4) {
+            if (popStatus(positions[added])) {
+               added++;
+            }
+         }
       });
    });
-
-   // Get the 5 latest items from the user's Facebook feed
-   singly.get('/services/facebook/feed', { limit: 5 }, function(feed) {
-      console.log('feed', feed);
-   });
 });
+
+function popStatus($position) {
+   var status = statuses.pop();
+
+   var $element;
+
+   if (status.text === undefined &&
+      status.image === undefined) {
+      return false;
+   }
+
+   var text = status.text;
+
+   if (text === undefined) {
+      text = sprintf('<img src="%(image)s" />', status);
+   }
+
+   $element = $(sprintf(
+      '<div class="card">' +
+         '%s' +
+      '</div>', text));
+
+   $position.children().replaceWith($element);
+
+   $element.draggable({
+      scroll: false,
+      containment: 'window',
+      // start and stop. We add in the momentum functions here.
+      start: function(e, ui) {
+         momentum.start($(this), e.clientX, e.clientY, e.timeStamp);
+      },
+      stop: function(e, ui) {
+         momentum.end($(this), e.clientX, e.clientY, e.timeStamp, function($card, destination) {
+            $('#message').text(destination).show();
+
+            popStatus($card.parent());
+         });
+      }
+   });
+
+   setTimeout(function() {
+      $element.addClass('pulsing');
+      $element.addClass('gyrating');
+   }, Math.random() * 2000);
+
+   return true;
+}
 
 function dragMomentum(howMuch, minDrift, easeType) {
    this.howMuch = howMuch; // change this for greater or lesser momentum
@@ -112,7 +244,7 @@ dragMomentum.prototype.start = function(e, Xa, Ya, Ta) {
    e.data('dTa', Ta);
 };
 
-dragMomentum.prototype.end = function(e, Xb, Yb, Tb) {
+dragMomentum.prototype.end = function(e, Xb, Yb, Tb, callback) {
    var Xa = e.data('dXa');
    var Ya = e.data('dYa');
    var Ta = e.data('dTa');
@@ -137,12 +269,16 @@ dragMomentum.prototype.end = function(e, Xb, Yb, Tb) {
    var Xc = '+=';
    var Yc = '+=';
 
+   var destination = 'hell';
+
    if (Xa > Xb) {  // we are moving left
       Xc = '-=';
    }
 
    if (Ya > Yb) {  // we are moving up
       Yc = '-=';
+
+      destination = 'heaven';
    }
 
    var newLocX = Xc + dVelocityX + 'px';
@@ -150,6 +286,9 @@ dragMomentum.prototype.end = function(e, Xb, Yb, Tb) {
 
    e.animate({
       left: newLocX,
-      top: newLocY
-   }, 200, this.easeType);
+      top: newLocY,
+      opacity: 0
+   }, 200, this.easeType, function() {
+      callback($(this), destination);
+   });
 };

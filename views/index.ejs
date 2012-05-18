@@ -1,11 +1,59 @@
-<p>Register with one or more of these services:</p>
+<div id="boxes">
+ <div id="message">
 
-<ul id="auth">
-<% for (var i = 0; i < services.length; i++) { %>
- <li id="<%= services[i].name %>"><%- services[i].link %></li>
-<% } %>
-</ul>
+ </div>
 
-<div id="empowered">
- <a href="http://singly.com/"><img src="/empowered.png" /></a>
+ <div id="auth-wrapper">
+  <p id="register">
+   Register with one or more of these services:
+  </p>
+
+  <ul id="auth">
+   <% for (var i = 0; i < services.length; i++) { %>
+   <li id="<%= services[i].name %>"><%- services[i].link %></li>
+   <% } %>
+  </ul>
+
+  <p>
+   <a href="#" id="done-registering" class="disabled">I'm done registering services, let me in!</a>
+  </p>
+
+  <div id="empowered">
+   <a href="http://singly.com/"><img src="/images/empowered.png" /></a>
+  </div>
+
+  <p id="disclaimer">
+   <em>This app was built during an internal Singly hack day as a test of our API.</em>
+  </p>
+ </div>
+
+ <div id="cards">
+  <div id="position-1">
+   <div class="card default">
+    ?
+   </div>
+  </div>
+
+  <div id="position-2">
+   <div class="card default">
+    ?
+   </div>
+  </div>
+
+  <div id="position-3">
+   <div class="card default">
+    ?
+   </div>
+  </div>
+
+  <div id="position-4">
+   <div class="card default">
+    ?
+   </div>
+  </div>
+ </div>
+
+ <div id="tweet">
+  Share your results with your friends!
+ </div>
 </div>

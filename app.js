@@ -5,6 +5,8 @@ var request = require('request');
 var sprintf = require('sprintf').sprintf;
 var OAuth2 = require('oauth').OAuth2;
 
+var MongoStore = require('connect-mongo')(express);
+
 var apiBaseUrl = 'https://api.singly.com';
 var hostBaseUrl = 'http://afterlife-game.com';
 
@@ -15,11 +17,11 @@ var config = JSON.parse(fs.readFileSync('config.json'));
 
 var usedServices = [
    'Facebook',
-   'foursquare',
+   //'foursquare',
    'Instagram',
-   'Tumblr',
-   'Twitter',
-   'LinkedIn'
+   //'Tumblr',
+   'Twitter'
+   //'LinkedIn'
 ];
 
 var oa = new OAuth2(config.clientId, config.clientSecret, apiBaseUrl);
@@ -37,7 +39,7 @@ function getLink(prettyName, profiles) {
    // If the user has a profile authorized for this service
    if (profiles && profiles[service] !== undefined) {
       // Return a unicode checkmark so that the user doesn't try to authorize it again
-      return sprintf('<span class="check">&#10003;</span> %s', prettyName);
+      return sprintf('<img class="connected" src="/images/%s.png" title="%s: Connected" />', service, prettyName);
    }
 
    // This flow is documented here: http://dev.singly.com/authorization
@@ -47,9 +49,10 @@ function getLink(prettyName, profiles) {
       service: service
    });
 
-   return sprintf('<a href="%s/oauth/authorize?%s">%s</a>',
+   return sprintf('<a href="%s/oauth/authorize?%s"><img src="/images/%s.png" title="%s" /></a>',
       apiBaseUrl,
       queryString,
+      service,
       prettyName);
 }
 
@@ -63,7 +66,10 @@ app.configure(function() {
    app.use(express.bodyParser());
    app.use(express.cookieParser());
    app.use(express.session({
-      secret: 'interwebs',
+      secret: config.sessionSecret,
+      store: new MongoStore({
+         db: 'express-sessions'
+      })
    }));
    app.use(app.router);
 });
